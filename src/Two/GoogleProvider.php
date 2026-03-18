@@ -39,7 +39,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.googleapis.com/oauth2/v4/token';
     }
@@ -69,7 +69,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshToken($refreshToken)
+    public function refreshToken($refreshToken): \Laravel\Socialite\Two\Token
     {
         $response = $this->getRefreshTokenResponse($refreshToken);
 
@@ -105,9 +105,8 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
      * Determine if the given token is a JWT (ID token).
      *
      * @param  string  $token
-     * @return bool
      */
-    protected function isJwtToken($token)
+    protected function isJwtToken($token): bool
     {
         return substr_count($token, '.') === 2 && strlen($token) > 100;
     }

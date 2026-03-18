@@ -33,7 +33,7 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
      * @param  string|null  $host
      * @return $this
      */
-    public function setHost($host)
+    public function setHost($host): self
     {
         if (! empty($host)) {
             $this->host = rtrim($host, '/');
@@ -53,7 +53,7 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->host.'/oauth/token';
     }

@@ -119,7 +119,6 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Set the raw user array from the provider.
      *
-     * @param  array  $user
      * @return $this
      */
     public function setRaw(array $user)
@@ -132,7 +131,6 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Map the given array onto the user's properties.
      *
-     * @param  array  $attributes
      * @return $this
      */
     public function map(array $attributes)
@@ -177,10 +175,9 @@ abstract class AbstractUser implements ArrayAccess, User
      *
      * @param  string  $offset
      * @param  mixed  $value
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         $this->user[$offset] = $value;
     }
@@ -189,10 +186,9 @@ abstract class AbstractUser implements ArrayAccess, User
      * Unset the given value from the raw user array.
      *
      * @param  string  $offset
-     * @return void
      */
     #[\ReturnTypeWillChange]
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         unset($this->user[$offset]);
     }
@@ -200,10 +196,9 @@ abstract class AbstractUser implements ArrayAccess, User
     /**
      * Get a user attribute value dynamically.
      *
-     * @param  string  $key
      * @return void
      */
-    public function __get($key)
+    public function __get(string $key)
     {
         return $this->attributes[$key] ?? null;
     }

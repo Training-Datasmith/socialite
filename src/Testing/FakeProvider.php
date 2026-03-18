@@ -37,7 +37,7 @@ class FakeProvider implements Provider
      *
      * @var \Laravel\Socialite\Contracts\User|\Closure|array|null
      */
-    protected $user = null;
+    protected $user;
 
     /**
      * Create a new fake provider instance.
@@ -84,19 +84,13 @@ class FakeProvider implements Provider
      */
     public function provider()
     {
-        if (isset($this->provider)) {
-            return $this->provider;
-        }
-
-        return $this->provider = ($this->resolver)();
+        return $this->provider ?? $this->provider = ($this->resolver)();
     }
 
     /**
      * Handle calls to methods that are not available on the fake provider.
-     *
-     * @param  string  $method
      */
-    public function __call($method, array $parameters)
+    public function __call(string $method, array $parameters)
     {
         return $this->forwardDecoratedCallTo($this->provider(), $method, $parameters);
     }

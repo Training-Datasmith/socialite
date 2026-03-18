@@ -46,7 +46,7 @@ class TwitterProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.twitter.com/2/oauth2/token';
     }

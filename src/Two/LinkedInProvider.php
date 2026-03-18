@@ -32,7 +32,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
@@ -40,7 +40,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function getUserByToken($token): array
     {
         $basicProfile = $this->getBasicProfile($token);
         $emailAddress = $this->getEmailAddress($token);
@@ -50,11 +50,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * Get the basic profile fields for the user.
-     *
-     * @param  string  $token
-     * @return array
      */
-    protected function getBasicProfile($token)
+    protected function getBasicProfile(string $token): array
     {
         $fields = ['id', 'firstName', 'lastName', 'profilePicture(displayImage~:playableStreams)'];
 
@@ -77,11 +74,8 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * Get the email address for the user.
-     *
-     * @param  string  $token
-     * @return array
      */
-    protected function getEmailAddress($token)
+    protected function getEmailAddress(string $token): array
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/emailAddress', [
             RequestOptions::HEADERS => [
@@ -107,13 +101,13 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
         $lastName = Arr::get($user, 'lastName.localized.'.$preferredLocale);
 
         $images = (array) Arr::get($user, 'profilePicture.displayImage~.elements', []);
-        $avatar = Arr::first($images, function ($image) {
+        $avatar = Arr::first($images, function (array $image): bool {
             return (
                 $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
                 $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']
             ) === 100;
         });
-        $originalAvatar = Arr::first($images, function ($image) {
+        $originalAvatar = Arr::first($images, function (array $image): bool {
             return (
                 $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['storageSize']['width'] ??
                 $image['data']['com.linkedin.digitalmedia.mediaartifact.StillImage']['displaySize']['width']

@@ -26,7 +26,7 @@ class SlackProvider extends AbstractProvider implements ProviderInterface
      *
      * @return $this
      */
-    public function asBotUser()
+    public function asBotUser(): self
     {
         $this->scopeKey = 'scope';
 
@@ -44,7 +44,7 @@ class SlackProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://slack.com/api/oauth.v2.access';
     }

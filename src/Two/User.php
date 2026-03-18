@@ -40,7 +40,7 @@ class User extends AbstractUser
      * @param  string  $token
      * @return $this
      */
-    public function setToken($token)
+    public function setToken($token): self
     {
         $this->token = $token;
 
@@ -53,7 +53,7 @@ class User extends AbstractUser
      * @param  string  $refreshToken
      * @return $this
      */
-    public function setRefreshToken($refreshToken)
+    public function setRefreshToken($refreshToken): self
     {
         $this->refreshToken = $refreshToken;
 
@@ -66,7 +66,7 @@ class User extends AbstractUser
      * @param  int  $expiresIn
      * @return $this
      */
-    public function setExpiresIn($expiresIn)
+    public function setExpiresIn($expiresIn): self
     {
         $this->expiresIn = $expiresIn;
 
@@ -79,7 +79,7 @@ class User extends AbstractUser
      * @param  array  $approvedScopes
      * @return $this
      */
-    public function setApprovedScopes($approvedScopes)
+    public function setApprovedScopes($approvedScopes): self
     {
         $this->approvedScopes = $approvedScopes;
 

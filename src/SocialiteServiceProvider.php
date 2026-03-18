@@ -10,12 +10,10 @@ class SocialiteServiceProvider extends ServiceProvider implements DeferrableProv
 {
     /**
      * Register the service provider.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
-        $this->app->singleton(Factory::class, function ($app) {
+        $this->app->singleton(Factory::class, function ($app): \Laravel\Socialite\SocialiteManager {
             return new SocialiteManager($app);
         });
     }

@@ -35,11 +35,8 @@ class TwitterProvider extends AbstractProvider
 
     /**
      * Set the access level the application should request to the user account.
-     *
-     * @param  string  $scope
-     * @return void
      */
-    public function scope(string $scope)
+    public function scope(string $scope): void
     {
         $this->server->setApplicationScope($scope);
     }

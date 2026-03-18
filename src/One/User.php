@@ -27,7 +27,7 @@ class User extends AbstractUser
      * @param  string  $tokenSecret
      * @return $this
      */
-    public function setToken($token, $tokenSecret)
+    public function setToken($token, $tokenSecret): self
     {
         $this->token = $token;
         $this->tokenSecret = $tokenSecret;

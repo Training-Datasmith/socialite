@@ -13,7 +13,7 @@ class DriverMissingConfigurationException extends InvalidArgumentException
      * @param  array<int, string>  $keys
      * @return static
      */
-    public static function make($provider, $keys)
+    public static function make($provider, $keys): self
     {
         /** @phpstan-ignore new.static */
         return new static('Missing required configuration keys ['.implode(', ', $keys)."] for [{$provider}] OAuth provider.");

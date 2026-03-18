@@ -33,7 +33,7 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://bitbucket.org/site/oauth2/access_token';
     }
@@ -59,10 +59,9 @@ class BitbucketProvider extends AbstractProvider implements ProviderInterface
     /**
      * Get the email for the given access token.
      *
-     * @param  string  $token
      * @return string|null
      */
-    protected function getEmailByToken($token)
+    protected function getEmailByToken(string $token)
     {
         $emailsUrl = 'https://api.bitbucket.org/2.0/user/emails?access_token='.$token;
 

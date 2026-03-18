@@ -72,7 +72,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return $this->graphUrl.'/'.$this->version.'/oauth/access_token';
     }
@@ -108,7 +108,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      * @param  string  $token
      * @return array
      */
-    protected function getUserByOIDCToken($token)
+    protected function getUserByOIDCToken($token): ?array
     {
         $kid = json_decode(base64_decode(explode('.', $token)[0]), true)['kid'] ?? null;
 
@@ -144,7 +144,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     {
         $response = $this->getHttpClient()->get('https://limited.facebook.com/.well-known/oauth/openid/jwks/');
 
-        $key = Arr::first(json_decode($response->getBody()->getContents(), true)['keys'], function ($key) use ($kid) {
+        $key = Arr::first(json_decode($response->getBody()->getContents(), true)['keys'], function (array $key) use ($kid): bool {
             return $key['kid'] === $kid;
         });
 
@@ -218,10 +218,9 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     /**
      * Set the user fields to request from Facebook.
      *
-     * @param  array  $fields
      * @return $this
      */
-    public function fields(array $fields)
+    public function fields(array $fields): self
     {
         $this->fields = $fields;
 
@@ -233,7 +232,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @return $this
      */
-    public function asPopup()
+    public function asPopup(): self
     {
         $this->popup = true;
 
@@ -245,7 +244,7 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
      *
      * @return $this
      */
-    public function reRequest()
+    public function reRequest(): self
     {
         $this->reRequest = true;
 
@@ -265,10 +264,9 @@ class FacebookProvider extends AbstractProvider implements ProviderInterface
     /**
      * Specify which graph version should be used.
      *
-     * @param  string  $version
      * @return $this
      */
-    public function usingGraphVersion(string $version)
+    public function usingGraphVersion(string $version): self
     {
         $this->version = $version;
 

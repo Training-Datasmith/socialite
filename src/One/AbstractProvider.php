@@ -33,10 +33,6 @@ abstract class AbstractProvider implements ProviderContract
 
     /**
      * Create a new provider instance.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \League\OAuth1\Client\Server\Server  $server
-     * @return void
      */
     public function __construct(Request $request, Server $server)
     {
@@ -150,11 +146,9 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Determine if the user information cache should be bypassed.
      *
-     * @param  string  $token
-     * @param  string  $secret
      * @return bool
      */
-    protected function shouldBypassCache($token, $secret)
+    protected function shouldBypassCache(string $token, string $secret)
     {
         $newHash = sha1($token.'_'.$secret);
 
@@ -172,7 +166,6 @@ abstract class AbstractProvider implements ProviderContract
     /**
      * Set the request instance.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return $this
      */
     public function setRequest(Request $request)

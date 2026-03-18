@@ -18,7 +18,7 @@ class XProvider extends TwitterProvider
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://api.x.com/2/oauth2/token';
     }

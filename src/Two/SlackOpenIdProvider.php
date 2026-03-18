@@ -32,7 +32,7 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://slack.com/api/openid.connect.token';
     }

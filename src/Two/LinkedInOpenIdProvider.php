@@ -31,7 +31,7 @@ class LinkedInOpenIdProvider extends AbstractProvider implements ProviderInterfa
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://www.linkedin.com/oauth/v2/accessToken';
     }
@@ -46,11 +46,8 @@ class LinkedInOpenIdProvider extends AbstractProvider implements ProviderInterfa
 
     /**
      * Get the basic profile fields for the user.
-     *
-     * @param  string  $token
-     * @return array
      */
-    protected function getBasicProfile($token)
+    protected function getBasicProfile(string $token): array
     {
         $response = $this->getHttpClient()->get('https://api.linkedin.com/v2/userinfo', [
             RequestOptions::HEADERS => [

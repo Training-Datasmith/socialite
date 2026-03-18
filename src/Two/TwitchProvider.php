@@ -32,7 +32,7 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://id.twitch.tv/oauth2/token';
     }
@@ -59,8 +59,6 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
     /**
      * Create a user instance from the given data.
      *
-     * @param  array  $response
-     * @param  array  $user
      * @return \Laravel\Socialite\Two\User
      */
     protected function userInstance(array $response, array $user)
@@ -98,7 +96,7 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function refreshToken($refreshToken)
+    public function refreshToken($refreshToken): \Laravel\Socialite\Two\Token
     {
         $response = $this->getRefreshTokenResponse($refreshToken);
 

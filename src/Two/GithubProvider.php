@@ -26,7 +26,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl()
+    protected function getTokenUrl(): string
     {
         return 'https://github.com/login/oauth/access_token';
     }
@@ -93,11 +93,8 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
 
     /**
      * Get the default options for an HTTP request.
-     *
-     * @param  string  $token
-     * @return array
      */
-    protected function getRequestOptions($token)
+    protected function getRequestOptions(string $token): array
     {
         return [
             RequestOptions::HEADERS => [

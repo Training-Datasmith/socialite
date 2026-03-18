@@ -257,7 +257,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the server configuration.
      *
-     * @param  array  $config
      * @return array
      */
     public function formatConfig(array $config)
@@ -272,7 +271,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
     /**
      * Format the callback URL, resolving a relative URI if needed.
      *
-     * @param  array  $config
      * @return string
      */
     protected function formatRedirectUrl(array $config)
