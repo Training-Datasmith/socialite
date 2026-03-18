@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\One;
 
 class TwitterProvider extends AbstractProvider
@@ -20,7 +22,7 @@ class TwitterProvider extends AbstractProvider
             'description' => $user->description,
         ];
 
-        $instance = (new User)->setRaw(array_merge($user->extra, $user->urls, $extraDetails))
+        $instance = (new User())->setRaw(array_merge($user->extra, $user->urls, $extraDetails))
                 ->setToken($token->getIdentifier(), $token->getSecret());
 
         return $instance->map([

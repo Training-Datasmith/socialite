@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Tests\Fixtures;
 
 use Laravel\Socialite\Two\AbstractProvider;
@@ -31,7 +33,7 @@ class OAuthTwoTestProviderStub extends AbstractProvider
 
     protected function mapUserToObject(array $user)
     {
-        return (new User)->map(['id' => $user['id']]);
+        return (new User())->map(['id' => $user['id']]);
     }
 
     /**

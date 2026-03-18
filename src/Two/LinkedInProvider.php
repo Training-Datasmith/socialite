@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\RequestOptions;
@@ -114,7 +116,7 @@ class LinkedInProvider extends AbstractProvider implements ProviderInterface
             ) === 800;
         });
 
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => null,
             'name' => $firstName.' '.$lastName,

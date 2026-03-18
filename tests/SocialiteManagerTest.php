@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Tests;
 
 use Laravel\Socialite\Contracts\Factory;

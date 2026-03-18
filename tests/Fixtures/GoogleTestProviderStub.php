@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Tests\Fixtures;
 
 use Laravel\Socialite\Two\GoogleProvider;
@@ -31,7 +33,7 @@ class GoogleTestProviderStub extends GoogleProvider
 
     protected function mapUserToObject(array $user)
     {
-        return (new User)->map(['id' => $user['id']]);
+        return (new User())->map(['id' => $user['id']]);
     }
 
     /**

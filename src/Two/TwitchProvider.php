@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\RequestOptions;
@@ -84,7 +86,7 @@ class TwitchProvider extends AbstractProvider implements ProviderInterface
     {
         $user = $user['data']['0'];
 
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             'nickname' => $user['display_name'],
             'name' => $user['display_name'],

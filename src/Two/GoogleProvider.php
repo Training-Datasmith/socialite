@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use Exception;
@@ -91,7 +93,7 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
         $user['verified_email'] = Arr::get($user, 'email_verified');
         $user['link'] = Arr::get($user, 'profile');
 
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => Arr::get($user, 'sub'),
             'nickname' => Arr::get($user, 'nickname'),
             'name' => Arr::get($user, 'name'),
@@ -123,7 +125,8 @@ class GoogleProvider extends AbstractProvider implements ProviderInterface
     {
         try {
             $user = (array) JWT::decode(
-                $idToken, JWK::parseKeySet($this->getGoogleJwks())
+                $idToken,
+                JWK::parseKeySet($this->getGoogleJwks())
             );
 
             if (! isset($user['iss']) ||

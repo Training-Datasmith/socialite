@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\RequestOptions;
@@ -54,7 +56,7 @@ class SlackOpenIdProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => Arr::get($user, 'sub'),
             'nickname' => null,
             'name' => Arr::get($user, 'name'),

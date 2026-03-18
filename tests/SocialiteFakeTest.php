@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Tests;
 
 use Laravel\Socialite\Contracts\Factory;
@@ -27,7 +29,7 @@ class SocialiteFakeTest extends TestCase
 
     public function test_it_can_fake_a_driver_with_a_user()
     {
-        $user = (new OAuth2User)->map([
+        $user = (new OAuth2User())->map([
             'id' => '123',
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -48,7 +50,7 @@ class SocialiteFakeTest extends TestCase
     public function test_it_can_fake_a_driver_with_a_closure()
     {
         Socialite::fake('github', function () {
-            return (new OAuth2User)->map([
+            return (new OAuth2User())->map([
                 'id' => '456',
                 'name' => 'Closure User',
                 'email' => 'closure@example.com',
@@ -63,8 +65,8 @@ class SocialiteFakeTest extends TestCase
 
     public function test_it_can_fake_multiple_drivers()
     {
-        Socialite::fake('github', (new OAuth2User)->map(['id' => 'github-123']));
-        Socialite::fake('google', (new OAuth2User)->map(['id' => 'google-456']));
+        Socialite::fake('github', (new OAuth2User())->map(['id' => 'github-123']));
+        Socialite::fake('google', (new OAuth2User())->map(['id' => 'google-456']));
 
         $this->assertSame('github-123', Socialite::driver('github')->user()->getId());
         $this->assertSame('google-456', Socialite::driver('google')->user()->getId());
@@ -72,7 +74,7 @@ class SocialiteFakeTest extends TestCase
 
     public function test_it_returns_fake_redirect_response()
     {
-        Socialite::fake('github', (new OAuth2User)->map(['id' => '123']));
+        Socialite::fake('github', (new OAuth2User())->map(['id' => '123']));
 
         $response = Socialite::driver('github')->redirect();
 
@@ -87,7 +89,7 @@ class SocialiteFakeTest extends TestCase
             'redirect' => 'http://localhost/callback',
         ]);
 
-        Socialite::fake('github', (new OAuth2User)->map(['id' => '123']));
+        Socialite::fake('github', (new OAuth2User())->map(['id' => '123']));
 
         $provider = Socialite::driver('github');
 
@@ -113,7 +115,7 @@ class SocialiteFakeTest extends TestCase
             'redirect' => 'http://localhost/callback',
         ]);
 
-        Socialite::fake('github', (new OAuth2User)->map(['id' => '123']));
+        Socialite::fake('github', (new OAuth2User())->map(['id' => '123']));
 
         $provider = Socialite::driver('github');
         $this->assertInstanceOf(FakeProvider::class, $provider);
@@ -147,7 +149,7 @@ class SocialiteFakeTest extends TestCase
         ]);
 
         // Fake only github
-        Socialite::fake('github', (new OAuth2User)->map(['id' => '123']));
+        Socialite::fake('github', (new OAuth2User())->map(['id' => '123']));
 
         // Github should return the fake provider
         $this->assertInstanceOf(FakeProvider::class, Socialite::driver('github'));

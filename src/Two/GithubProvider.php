@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use Exception;
@@ -39,7 +41,8 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
         $userUrl = 'https://api.github.com/user';
 
         $response = $this->getHttpClient()->get(
-            $userUrl, $this->getRequestOptions($token)
+            $userUrl,
+            $this->getRequestOptions($token)
         );
 
         $user = json_decode($response->getBody(), true);
@@ -63,7 +66,8 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
 
         try {
             $response = $this->getHttpClient()->get(
-                $emailsUrl, $this->getRequestOptions($token)
+                $emailsUrl,
+                $this->getRequestOptions($token)
             );
         } catch (Exception $e) {
             return;
@@ -81,7 +85,7 @@ class GithubProvider extends AbstractProvider implements ProviderInterface
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => $user['id'],
             'nodeId' => $user['node_id'],
             'nickname' => $user['login'],

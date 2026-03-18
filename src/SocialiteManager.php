@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite;
 
 use Illuminate\Support\Arr;
@@ -54,7 +56,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.github');
 
         return $this->buildProvider(
-            GithubProvider::class, $config
+            GithubProvider::class,
+            $config
         );
     }
 
@@ -68,7 +71,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.facebook');
 
         return $this->buildProvider(
-            FacebookProvider::class, $config
+            FacebookProvider::class,
+            $config
         );
     }
 
@@ -82,7 +86,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.google');
 
         return $this->buildProvider(
-            GoogleProvider::class, $config
+            GoogleProvider::class,
+            $config
         );
     }
 
@@ -96,7 +101,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.linkedin');
 
         return $this->buildProvider(
-            LinkedInProvider::class, $config
+            LinkedInProvider::class,
+            $config
         );
     }
 
@@ -110,7 +116,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.linkedin-openid');
 
         return $this->buildProvider(
-            LinkedInOpenIdProvider::class, $config
+            LinkedInOpenIdProvider::class,
+            $config
         );
     }
 
@@ -124,7 +131,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.bitbucket');
 
         return $this->buildProvider(
-            BitbucketProvider::class, $config
+            BitbucketProvider::class,
+            $config
         );
     }
 
@@ -138,7 +146,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.gitlab');
 
         return $this->buildProvider(
-            GitlabProvider::class, $config
+            GitlabProvider::class,
+            $config
         )->setHost($config['host'] ?? null);
     }
 
@@ -156,7 +165,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         }
 
         return new TwitterProvider(
-            $this->container->make('request'), new TwitterServer($this->formatConfig($config))
+            $this->container->make('request'),
+            new TwitterServer($this->formatConfig($config))
         );
     }
 
@@ -170,7 +180,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.twitter') ?? $this->config->get('services.twitter-oauth-2');
 
         return $this->buildProvider(
-            TwitterOAuth2Provider::class, $config
+            TwitterOAuth2Provider::class,
+            $config
         );
     }
 
@@ -184,7 +195,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.x') ?? $this->config->get('services.x-oauth-2');
 
         return $this->buildProvider(
-            XProvider::class, $config
+            XProvider::class,
+            $config
         );
     }
 
@@ -198,7 +210,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.twitch');
 
         return $this->buildProvider(
-            TwitchProvider::class, $config
+            TwitchProvider::class,
+            $config
         );
     }
 
@@ -212,7 +225,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.slack');
 
         return $this->buildProvider(
-            SlackProvider::class, $config
+            SlackProvider::class,
+            $config
         );
     }
 
@@ -226,7 +240,8 @@ class SocialiteManager extends Manager implements Contracts\Factory
         $config = $this->config->get('services.slack-openid');
 
         return $this->buildProvider(
-            SlackOpenIdProvider::class, $config
+            SlackOpenIdProvider::class,
+            $config
         );
     }
 
@@ -248,8 +263,10 @@ class SocialiteManager extends Manager implements Contracts\Factory
         }
 
         return (new $provider(
-            $this->container->make('request'), $config['client_id'],
-            $config['client_secret'], $this->formatRedirectUrl($config),
+            $this->container->make('request'),
+            $config['client_id'],
+            $config['client_secret'],
+            $this->formatRedirectUrl($config),
             Arr::get($config, 'guzzle', [])
         ))->scopes($config['scopes'] ?? []);
     }

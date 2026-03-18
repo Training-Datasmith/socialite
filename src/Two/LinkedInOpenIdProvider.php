@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\Two;
 
 use GuzzleHttp\RequestOptions;
@@ -67,7 +69,7 @@ class LinkedInOpenIdProvider extends AbstractProvider implements ProviderInterfa
      */
     protected function mapUserToObject(array $user)
     {
-        return (new User)->setRaw($user)->map([
+        return (new User())->setRaw($user)->map([
             'id' => $user['sub'],
             'nickname' => null,
             'name' => $user['name'],

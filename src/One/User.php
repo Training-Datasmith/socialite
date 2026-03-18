@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Laravel\Socialite\One;
 
 use Laravel\Socialite\AbstractUser;
