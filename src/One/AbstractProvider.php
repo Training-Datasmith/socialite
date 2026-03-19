@@ -127,7 +127,7 @@ abstract class AbstractProvider implements ProviderContract
      */
     protected function getToken()
     {
-        $temp = $this->request->session()->get('oauth.temp');
+        $temp = $this->request->session()->pull('oauth.temp');
 
         if (! $temp) {
             throw new MissingTemporaryCredentialsException('Missing temporary OAuth credentials.');

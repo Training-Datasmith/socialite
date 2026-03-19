@@ -66,7 +66,7 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
     protected function getUserByToken($token)
     {
         $response = $this->getHttpClient()->get($this->host.'/api/v3/user', [
-            RequestOptions::QUERY => ['access_token' => $token],
+            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
         ]);
 
         return json_decode($response->getBody(), true);
