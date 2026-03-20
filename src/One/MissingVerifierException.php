@@ -1,11 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\One;
 
 use InvalidArgumentException;
-
-class MissingVerifierException extends InvalidArgumentException
+class Missing_Verifier_Exception extends InvalidArgumentException
 {
 }

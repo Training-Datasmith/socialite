@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\RequestOptions;
-
-class GitlabProvider extends AbstractProvider implements ProviderInterface
+use Guzzle_Http\Request_Options;
+class Gitlab_Provider extends Abstract_Provider implements Provider_Interface
 {
     /**
      * The scopes being requested.
@@ -14,75 +12,58 @@ class GitlabProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['read_user'];
-
     /**
      * The separating character for the requested scopes.
      *
      * @var string
      */
-    protected $scopeSeparator = ' ';
-
+    protected $scope_separator = ' ';
     /**
      * The Gitlab instance host.
      *
      * @var string
      */
     protected $host = 'https://gitlab.com';
-
     /**
      * Set the Gitlab instance host.
      *
      * @param  string|null  $host
      * @return $this
      */
-    public function setHost($host): self
+    public function set_host($host): self
     {
-        if (! empty($host)) {
+        if (!empty($host)) {
             $this->host = rtrim($host, '/');
         }
-
         return $this;
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getAuthUrl($state)
+    protected function get_auth_url($state)
     {
-        return $this->buildAuthUrlFromBase($this->host.'/oauth/authorize', $state);
+        return $this->build_auth_url_from_base($this->host . '/oauth/authorize', $state);
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl(): string
+    protected function get_token_url(): string
     {
-        return $this->host.'/oauth/token';
+        return $this->host . '/oauth/token';
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function get_user_by_token($token)
     {
-        $response = $this->getHttpClient()->get($this->host.'/api/v3/user', [
-            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
-        ]);
-
-        return json_decode($response->getBody(), true);
+        $response = $this->get_http_client()->get($this->host . '/api/v3/user', [Request_Options::HEADERS => ['Authorization' => 'Bearer ' . $token]]);
+        return json_decode($response->get_body(), true);
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function map_user_to_object(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id' => $user['id'],
-            'nickname' => $user['username'],
-            'name' => $user['name'],
-            'email' => $user['email'],
-            'avatar' => $user['avatar_url'],
-        ]);
+        return (new User())->set_raw($user)->map(['id' => $user['id'], 'nickname' => $user['username'], 'name' => $user['name'], 'email' => $user['email'], 'avatar' => $user['avatar_url']]);
     }
 }

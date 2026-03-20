@@ -1,30 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Manager;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
-use Laravel\Socialite\Exceptions\DriverMissingConfigurationException;
-use Laravel\Socialite\One\TwitterProvider;
-use Laravel\Socialite\Two\BitbucketProvider;
-use Laravel\Socialite\Two\FacebookProvider;
-use Laravel\Socialite\Two\GithubProvider;
-use Laravel\Socialite\Two\GitlabProvider;
-use Laravel\Socialite\Two\GoogleProvider;
-use Laravel\Socialite\Two\LinkedInOpenIdProvider;
-use Laravel\Socialite\Two\LinkedInProvider;
-use Laravel\Socialite\Two\SlackOpenIdProvider;
-use Laravel\Socialite\Two\SlackProvider;
-use Laravel\Socialite\Two\TwitchProvider;
-use Laravel\Socialite\Two\TwitterProvider as TwitterOAuth2Provider;
-use Laravel\Socialite\Two\XProvider;
-use League\OAuth1\Client\Server\Twitter as TwitterServer;
-
-class SocialiteManager extends Manager implements Contracts\Factory
+use Laravel\Socialite\Exceptions\Driver_Missing_Configuration_Exception;
+use Laravel\Socialite\One\Twitter_Provider;
+use Laravel\Socialite\Two\Bitbucket_Provider;
+use Laravel\Socialite\Two\Facebook_Provider;
+use Laravel\Socialite\Two\Github_Provider;
+use Laravel\Socialite\Two\Gitlab_Provider;
+use Laravel\Socialite\Two\Google_Provider;
+use Laravel\Socialite\Two\Linked_In_Open_Id_Provider;
+use Laravel\Socialite\Two\Linked_In_Provider;
+use Laravel\Socialite\Two\Slack_Open_Id_Provider;
+use Laravel\Socialite\Two\Slack_Provider;
+use Laravel\Socialite\Two\Twitch_Provider;
+use Laravel\Socialite\Two\Twitter_Provider as TwitterOAuth2Provider;
+use Laravel\Socialite\Two\X_Provider;
+use League\O_Auth1\Client\Server\Twitter as TwitterServer;
+class Socialite_Manager extends Manager implements Contracts\Factory
 {
     /**
      * The application instance.
@@ -34,7 +32,6 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * @deprecated Will be removed in a future Socialite release.
      */
     protected $app;
-
     /**
      * Get a driver instance.
      *
@@ -45,206 +42,139 @@ class SocialiteManager extends Manager implements Contracts\Factory
     {
         return $this->driver($driver);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGithubDriver()
+    protected function create_github_driver()
     {
         $config = $this->config->get('services.github');
-
-        return $this->buildProvider(
-            GithubProvider::class,
-            $config
-        );
+        return $this->build_provider(Github_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createFacebookDriver()
+    protected function create_facebook_driver()
     {
         $config = $this->config->get('services.facebook');
-
-        return $this->buildProvider(
-            FacebookProvider::class,
-            $config
-        );
+        return $this->build_provider(Facebook_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGoogleDriver()
+    protected function create_google_driver()
     {
         $config = $this->config->get('services.google');
-
-        return $this->buildProvider(
-            GoogleProvider::class,
-            $config
-        );
+        return $this->build_provider(Google_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createLinkedinDriver()
+    protected function create_linkedin_driver()
     {
         $config = $this->config->get('services.linkedin');
-
-        return $this->buildProvider(
-            LinkedInProvider::class,
-            $config
-        );
+        return $this->build_provider(Linked_In_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createLinkedinOpenidDriver()
+    protected function create_linkedin_openid_driver()
     {
         $config = $this->config->get('services.linkedin-openid');
-
-        return $this->buildProvider(
-            LinkedInOpenIdProvider::class,
-            $config
-        );
+        return $this->build_provider(Linked_In_Open_Id_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createBitbucketDriver()
+    protected function create_bitbucket_driver()
     {
         $config = $this->config->get('services.bitbucket');
-
-        return $this->buildProvider(
-            BitbucketProvider::class,
-            $config
-        );
+        return $this->build_provider(Bitbucket_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createGitlabDriver()
+    protected function create_gitlab_driver()
     {
         $config = $this->config->get('services.gitlab');
-
-        return $this->buildProvider(
-            GitlabProvider::class,
-            $config
-        )->setHost($config['host'] ?? null);
+        return $this->build_provider(Gitlab_Provider::class, $config)->set_host($config['host'] ?? null);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\One\AbstractProvider|\Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createTwitterDriver()
+    protected function create_twitter_driver()
     {
         $config = $this->config->get('services.twitter');
-
         if (($config['oauth'] ?? null) === 2) {
-            return $this->createTwitterOAuth2Driver();
+            return $this->create_twitter_o_auth2driver();
         }
-
-        return new TwitterProvider(
-            $this->container->make('request'),
-            new TwitterServer($this->formatConfig($config))
-        );
+        return new Twitter_Provider($this->container->make('request'), new Twitter_Server($this->format_config($config)));
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createTwitterOAuth2Driver()
+    protected function create_twitter_o_auth2driver()
     {
         $config = $this->config->get('services.twitter') ?? $this->config->get('services.twitter-oauth-2');
-
-        return $this->buildProvider(
-            TwitterOAuth2Provider::class,
-            $config
-        );
+        return $this->build_provider(Twitter_O_Auth2provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createXDriver()
+    protected function create_x_driver()
     {
         $config = $this->config->get('services.x') ?? $this->config->get('services.x-oauth-2');
-
-        return $this->buildProvider(
-            XProvider::class,
-            $config
-        );
+        return $this->build_provider(X_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createTwitchDriver()
+    protected function create_twitch_driver()
     {
         $config = $this->config->get('services.twitch');
-
-        return $this->buildProvider(
-            TwitchProvider::class,
-            $config
-        );
+        return $this->build_provider(Twitch_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createSlackDriver()
+    protected function create_slack_driver()
     {
         $config = $this->config->get('services.slack');
-
-        return $this->buildProvider(
-            SlackProvider::class,
-            $config
-        );
+        return $this->build_provider(Slack_Provider::class, $config);
     }
-
     /**
      * Create an instance of the specified driver.
      *
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    protected function createSlackOpenidDriver()
+    protected function create_slack_openid_driver()
     {
         $config = $this->config->get('services.slack-openid');
-
-        return $this->buildProvider(
-            SlackOpenIdProvider::class,
-            $config
-        );
+        return $this->build_provider(Slack_Open_Id_Provider::class, $config);
     }
-
     /**
      * Build an OAuth 2 provider instance.
      *
@@ -252,80 +182,57 @@ class SocialiteManager extends Manager implements Contracts\Factory
      * @param  array  $config
      * @return \Laravel\Socialite\Two\AbstractProvider
      */
-    public function buildProvider($provider, $config)
+    public function build_provider($provider, $config)
     {
-        $requiredKeys = ['client_id', 'client_secret', 'redirect'];
-
-        $missingKeys = array_diff($requiredKeys, array_keys($config ?? []));
-
-        if (! empty($missingKeys)) {
-            throw DriverMissingConfigurationException::make($provider, $missingKeys);
+        $required_keys = ['client_id', 'client_secret', 'redirect'];
+        $missing_keys = array_diff($required_keys, array_keys($config ?? []));
+        if (!empty($missing_keys)) {
+            throw Driver_Missing_Configuration_Exception::make($provider, $missing_keys);
         }
-
-        return (new $provider(
-            $this->container->make('request'),
-            $config['client_id'],
-            $config['client_secret'],
-            $this->formatRedirectUrl($config),
-            Arr::get($config, 'guzzle', [])
-        ))->scopes($config['scopes'] ?? []);
+        return (new $provider($this->container->make('request'), $config['client_id'], $config['client_secret'], $this->format_redirect_url($config), Arr::get($config, 'guzzle', [])))->scopes($config['scopes'] ?? []);
     }
-
     /**
      * Format the server configuration.
      *
      * @return array
      */
-    public function formatConfig(array $config)
+    public function format_config(array $config)
     {
-        return array_merge([
-            'identifier' => $config['client_id'],
-            'secret' => $config['client_secret'],
-            'callback_uri' => $this->formatRedirectUrl($config),
-        ], $config);
+        return array_merge(['identifier' => $config['client_id'], 'secret' => $config['client_secret'], 'callback_uri' => $this->format_redirect_url($config)], $config);
     }
-
     /**
      * Format the callback URL, resolving a relative URI if needed.
      *
      * @return string
      */
-    protected function formatRedirectUrl(array $config)
+    protected function format_redirect_url(array $config)
     {
         $redirect = value($config['redirect']);
-
-        return Str::startsWith($redirect ?? '', '/')
-                    ? $this->container->make('url')->to($redirect)
-                    : $redirect;
+        return Str::starts_with($redirect ?? '', '/') ? $this->container->make('url')->to($redirect) : $redirect;
     }
-
     /**
      * Forget all of the resolved driver instances.
      *
      * @return $this
      */
-    public function forgetDrivers()
+    public function forget_drivers()
     {
         $this->drivers = [];
-
         return $this;
     }
-
     /**
      * Set the container instance used by the manager.
      *
      * @param  \Illuminate\Contracts\Container\Container  $container
      * @return $this
      */
-    public function setContainer($container)
+    public function set_container($container)
     {
         $this->app = $container;
         $this->container = $container;
         $this->config = $container->make('config');
-
         return $this;
     }
-
     /**
      * Get the default driver name.
      *
@@ -333,7 +240,7 @@ class SocialiteManager extends Manager implements Contracts\Factory
      *
      * @throws \InvalidArgumentException
      */
-    public function getDefaultDriver()
+    public function get_default_driver()
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
     }

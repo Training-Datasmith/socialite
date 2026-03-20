@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\Two;
 
-use GuzzleHttp\RequestOptions;
+use Guzzle_Http\Request_Options;
 use Illuminate\Support\Arr;
-
-class SlackProvider extends AbstractProvider implements ProviderInterface
+class Slack_Provider extends Abstract_Provider implements Provider_Interface
 {
     /**
      * The scopes being requested.
@@ -15,99 +13,73 @@ class SlackProvider extends AbstractProvider implements ProviderInterface
      * @var array
      */
     protected $scopes = ['identity.basic', 'identity.email', 'identity.team', 'identity.avatar'];
-
     /**
      * The key used for scopes.
      *
      * @var string
      */
-    protected $scopeKey = 'user_scope';
-
+    protected $scope_key = 'user_scope';
     /**
      * Indicate that the requested token should be for a bot user.
      *
      * @return $this
      */
-    public function asBotUser(): self
+    public function as_bot_user(): self
     {
-        $this->scopeKey = 'scope';
-
+        $this->scope_key = 'scope';
         return $this;
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getAuthUrl($state)
+    public function get_auth_url($state)
     {
-        return $this->buildAuthUrlFromBase('https://slack.com/oauth/v2/authorize', $state);
+        return $this->build_auth_url_from_base('https://slack.com/oauth/v2/authorize', $state);
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getTokenUrl(): string
+    protected function get_token_url(): string
     {
         return 'https://slack.com/api/oauth.v2.access';
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getUserByToken($token)
+    protected function get_user_by_token($token)
     {
-        $response = $this->getHttpClient()->get('https://slack.com/api/users.identity', [
-            RequestOptions::HEADERS => ['Authorization' => 'Bearer '.$token],
-        ]);
-
-        return json_decode($response->getBody(), true);
+        $response = $this->get_http_client()->get('https://slack.com/api/users.identity', [Request_Options::HEADERS => ['Authorization' => 'Bearer ' . $token]]);
+        return json_decode($response->get_body(), true);
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function mapUserToObject(array $user)
+    protected function map_user_to_object(array $user)
     {
-        return (new User())->setRaw($user)->map([
-            'id' => Arr::get($user, 'user.id'),
-            'name' => Arr::get($user, 'user.name'),
-            'email' => Arr::get($user, 'user.email'),
-            'avatar' => Arr::get($user, 'user.image_512'),
-            'organization_id' => Arr::get($user, 'team.id'),
-        ]);
+        return (new User())->set_raw($user)->map(['id' => Arr::get($user, 'user.id'), 'name' => Arr::get($user, 'user.name'), 'email' => Arr::get($user, 'user.email'), 'avatar' => Arr::get($user, 'user.image_512'), 'organization_id' => Arr::get($user, 'team.id')]);
     }
-
     /**
      * {@inheritdoc}
      */
-    protected function getCodeFields($state = null)
+    protected function get_code_fields($state = null)
     {
-        $fields = parent::getCodeFields($state);
-
-        if ($this->scopeKey === 'user_scope') {
+        $fields = parent::get_code_fields($state);
+        if ($this->scope_key === 'user_scope') {
             $fields['scope'] = '';
-            $fields['user_scope'] = $this->formatScopes($this->scopes, $this->scopeSeparator);
+            $fields['user_scope'] = $this->format_scopes($this->scopes, $this->scope_separator);
         }
-
         return $fields;
     }
-
     /**
      * {@inheritdoc}
      */
-    public function getAccessTokenResponse($code)
+    public function get_access_token_response($code)
     {
-        $response = $this->getHttpClient()->post($this->getTokenUrl(), [
-            RequestOptions::HEADERS => $this->getTokenHeaders($code),
-            RequestOptions::FORM_PARAMS => $this->getTokenFields($code),
-        ]);
-
-        $result = json_decode($response->getBody(), true);
-
-        if ($this->scopeKey === 'user_scope') {
+        $response = $this->get_http_client()->post($this->get_token_url(), [Request_Options::HEADERS => $this->get_token_headers($code), Request_Options::FORM_PARAMS => $this->get_token_fields($code)]);
+        $result = json_decode($response->get_body(), true);
+        if ($this->scope_key === 'user_scope') {
             return $result['authed_user'];
         }
-
         return $result;
     }
 }

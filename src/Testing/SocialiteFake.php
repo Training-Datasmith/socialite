@@ -1,12 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\Testing;
 
 use Laravel\Socialite\Contracts\Factory;
-
-class SocialiteFake implements Factory
+class Socialite_Fake implements Factory
 {
     /**
      * The original factory instance.
@@ -14,14 +12,12 @@ class SocialiteFake implements Factory
      * @var \Laravel\Socialite\Contracts\Factory
      */
     protected $factory;
-
     /**
      * The fake provider instances.
      *
      * @var array<string, \Laravel\Socialite\Testing\FakeProvider>
      */
     protected $providers = [];
-
     /**
      * Create a new Socialite fake instance.
      *
@@ -31,7 +27,6 @@ class SocialiteFake implements Factory
     {
         $this->factory = $factory;
     }
-
     /**
      * Get an OAuth provider implementation.
      *
@@ -42,7 +37,6 @@ class SocialiteFake implements Factory
     {
         return $this->providers[$driver] ?? $this->factory->driver($driver);
     }
-
     /**
      * Register a fake user for the given driver.
      *
@@ -54,9 +48,7 @@ class SocialiteFake implements Factory
         $resolver = function () use ($driver) {
             return $this->factory->driver($driver);
         };
-
-        $this->providers[$driver] = new FakeProvider($driver, $resolver, $user);
-
+        $this->providers[$driver] = new Fake_Provider($driver, $resolver, $user);
         return $this;
     }
 }

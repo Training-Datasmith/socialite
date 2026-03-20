@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite;
 
 use Illuminate\Support\Facades\Facade;
 use Laravel\Socialite\Contracts\Factory;
-use Laravel\Socialite\Testing\SocialiteFake;
-
+use Laravel\Socialite\Testing\Socialite_Fake;
 /**
  * @method static \Laravel\Socialite\Contracts\Provider driver(string $driver = null)
  * @method static \Laravel\Socialite\Two\AbstractProvider buildProvider(string $provider, array $config)
@@ -26,11 +24,10 @@ class Socialite extends Facade
      *
      * @return string
      */
-    protected static function getFacadeAccessor()
+    protected static function get_facade_accessor()
     {
         return Factory::class;
     }
-
     /**
      * Register a fake Socialite instance.
      *
@@ -39,16 +36,13 @@ class Socialite extends Facade
      */
     public static function fake(string $driver, $user = null)
     {
-        $root = static::getFacadeRoot();
-
-        if ($root instanceof SocialiteFake) {
+        $root = static::get_facade_root();
+        if ($root instanceof Socialite_Fake) {
             $fake = $root;
         } else {
-            $fake = new SocialiteFake($root);
-
+            $fake = new Socialite_Fake($root);
             static::swap($fake);
         }
-
         return $fake->fake($driver, $user);
     }
 }

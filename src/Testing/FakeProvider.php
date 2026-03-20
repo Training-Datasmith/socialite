@@ -1,46 +1,39 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\Testing;
 
 use Closure;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Traits\ForwardsCalls;
+use Illuminate\Http\Redirect_Response;
+use Illuminate\Support\Traits\Forwards_Calls;
 use Laravel\Socialite\Contracts\Provider;
-
-class FakeProvider implements Provider
+class Fake_Provider implements Provider
 {
-    use ForwardsCalls;
-
+    use Forwards_Calls;
     /**
      * The driver name.
      *
      * @var string
      */
     protected $driver;
-
     /**
      * The provider resolver.
      *
      * @var \Closure
      */
     protected $resolver;
-
     /**
      * The original provider instance.
      *
      * @var \Laravel\Socialite\Contracts\Provider
      */
     protected $provider;
-
     /**
      * The fake user to return.
      *
      * @var \Laravel\Socialite\Contracts\User|\Closure|array|null
      */
     protected $user;
-
     /**
      * Create a new fake provider instance.
      *
@@ -54,7 +47,6 @@ class FakeProvider implements Provider
         $this->resolver = $resolver;
         $this->user = $user;
     }
-
     /**
      * Redirect the user to the authentication page for the provider.
      *
@@ -62,9 +54,8 @@ class FakeProvider implements Provider
      */
     public function redirect()
     {
-        return new RedirectResponse('https://socialite.fake/'.$this->driver.'/authorize');
+        return new Redirect_Response('https://socialite.fake/' . $this->driver . '/authorize');
     }
-
     /**
      * Get the User instance for the authenticated user.
      *
@@ -75,10 +66,8 @@ class FakeProvider implements Provider
         if ($this->user instanceof Closure) {
             return ($this->user)();
         }
-
         return $this->user ?? $this->provider()->user();
     }
-
     /**
      * Get the original provider instance.
      *
@@ -88,12 +77,11 @@ class FakeProvider implements Provider
     {
         return $this->provider ?? $this->provider = ($this->resolver)();
     }
-
     /**
      * Handle calls to methods that are not available on the fake provider.
      */
     public function __call(string $method, array $parameters)
     {
-        return $this->forwardDecoratedCallTo($this->provider(), $method, $parameters);
+        return $this->forward_decorated_call_to($this->provider(), $method, $parameters);
     }
 }

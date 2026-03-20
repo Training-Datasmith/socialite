@@ -1,10 +1,9 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\Two;
 
-interface ProviderInterface
+interface Provider_Interface
 {
     /**
      * Redirect the user to the authentication page for the provider.
@@ -12,7 +11,6 @@ interface ProviderInterface
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function redirect();
-
     /**
      * Get the User instance for the authenticated user.
      *

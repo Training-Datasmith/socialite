@@ -1,45 +1,28 @@
 <?php
 
-declare(strict_types=1);
-
+declare (strict_types=1);
 namespace Laravel\Socialite\One;
 
-class TwitterProvider extends AbstractProvider
+class Twitter_Provider extends Abstract_Provider
 {
     /**
      * {@inheritdoc}
      */
     public function user()
     {
-        if (! $this->hasNecessaryVerifier()) {
-            throw new MissingVerifierException('Invalid request. Missing OAuth verifier.');
+        if (!$this->has_necessary_verifier()) {
+            throw new Missing_Verifier_Exception('Invalid request. Missing OAuth verifier.');
         }
-
-        $user = $this->server->getUserDetails($token = $this->getToken(), $this->shouldBypassCache($token->getIdentifier(), $token->getSecret()));
-
-        $extraDetails = [
-            'location' => $user->location,
-            'description' => $user->description,
-        ];
-
-        $instance = (new User())->setRaw(array_merge($user->extra, $user->urls, $extraDetails))
-                ->setToken($token->getIdentifier(), $token->getSecret());
-
-        return $instance->map([
-            'id' => $user->uid,
-            'nickname' => $user->nickname,
-            'name' => $user->name,
-            'email' => $user->email,
-            'avatar' => $user->imageUrl,
-            'avatar_original' => str_replace('_normal', '', $user->imageUrl),
-        ]);
+        $user = $this->server->get_user_details($token = $this->get_token(), $this->should_bypass_cache($token->get_identifier(), $token->get_secret()));
+        $extra_details = ['location' => $user->location, 'description' => $user->description];
+        $instance = (new User())->set_raw(array_merge($user->extra, $user->urls, $extra_details))->set_token($token->get_identifier(), $token->get_secret());
+        return $instance->map(['id' => $user->uid, 'nickname' => $user->nickname, 'name' => $user->name, 'email' => $user->email, 'avatar' => $user->image_url, 'avatar_original' => str_replace('_normal', '', $user->image_url)]);
     }
-
     /**
      * Set the access level the application should request to the user account.
      */
     public function scope(string $scope): void
     {
-        $this->server->setApplicationScope($scope);
+        $this->server->set_application_scope($scope);
     }
 }
